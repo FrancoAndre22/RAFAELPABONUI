@@ -30,7 +30,7 @@ const ComboBoxVuelo = ({ rutaId, onSelectVuelo }) => {
               value={vuelo.id}
               data-subtext={`Salida: ${vuelo.fechaSalida}`}
             >
-              ✈️ {vuelo.rutaSalidaPais} → {vuelo.rutaLlegadaPais}
+              ✈️ [{vuelo.rutaSalidaPais} - {vuelo.rutaSalidaCiudad}] → [{vuelo.rutaLlegadaPais} - {vuelo.rutaLlegadaCiudad}]
             </option>
           ))}
         </select>

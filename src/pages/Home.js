@@ -5,6 +5,7 @@ import TablaAsientos from '../components/TablaAsientos';
 import BotonesAccion from '../components/BotonesAccion';
 import FormularioPasajero from '../components/FormularioPasajero';
 import { useFlightContext } from '../context/FlightContext';
+import DataSourceSelector from '../components/DataSourceSelector';
 
 
 // Home.js (versión estilizada)
@@ -24,15 +25,15 @@ const Home = () => {
 
     const onAsientoSeleccionado = (id) => {
         setAsientoSeleccionado(id);
-        console.log(id)
     }
   
     return (
       <div className="row g-4">
+        <DataSourceSelector /> {/* Selector de fuente de datos */}
         {/* Selectores de ruta */}
         <div className="col-12">
           <div className="bg-light p-4 rounded-3 shadow-sm">
-            <h4 className="mb-4 text-primary">Seleccione su ruta</h4>
+            <h4 className="mb-4 text-primary">Seleccione su pais</h4>
             <div className="row g-3">
               <div className="col-md-6">
                 <ComboBoxRuta tipo="origen" onSelect={setRutaId} />

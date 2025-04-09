@@ -22,7 +22,7 @@ const ComboBoxRuta = ({ tipo, onSelect }) => {
         <option value="">{`${tipo.toUpperCase()} - Seleccione país/ciudad`}</option>
         {rutas.map(ruta => (
           <option key={ruta.id} value={ruta.id}>
-            {ruta.pais.toUpperCase()} - {ruta.ciudad}
+            {ruta.pais.toUpperCase()}
           </option>
         ))}
       </select>

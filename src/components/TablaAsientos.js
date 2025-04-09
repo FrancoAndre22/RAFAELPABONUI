@@ -169,7 +169,6 @@ const TablaAsientos = ({ vueloId, onAsientoClick }) => {
             numeroAsiento = {selectedAsiento.numeroAsiento}
             onDatosCompletados={(datos) => {
               // Lógica para enviar a tu API
-              console.log('Datos a enviar:', datos);
               setSelectedAsiento(null);
             }}
             updateAsientos={updateAsientos}
