@@ -2,6 +2,7 @@
 import { FlightProvider } from './context/FlightContext';
 import Home from './pages/Home';
 import './App.css';
+import image from'./img/rafael-pabon.png' 
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
           <div className="container">
             <span className="navbar-brand mb-0 h1">
               <img 
-                src="../img/rafael-pabon.png"  // Coloca tu logo en public/logo.png
+                src={image}
                 alt="Aerolíneas Rafael Pabón" 
                 height="40"
                 className="me-2"

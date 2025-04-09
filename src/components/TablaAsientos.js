@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { InfoCircle } from 'react-bootstrap-icons';
 import { fetchAsientos } from '../api/asientos';
 import FormularioPasajero from './FormularioPasajero';
+import { deleteBoleto, updateBoleto } from '../api/boleto';
 
 const TablaAsientos = ({ vueloId, onAsientoClick }) => {
   const [asientos, setAsientos] = useState([]);
@@ -28,6 +29,44 @@ const TablaAsientos = ({ vueloId, onAsientoClick }) => {
       vendido: 'Vendido'
     };
     return estados[estado];
+  };
+
+  const handleSeatClick = async (asiento) => {
+    const estado = getEstado(asiento);
+    
+    if (estado === 'libre') {
+      setSelectedAsiento({
+        vueloId: vueloId,
+        asientoId: asiento.id,
+        numeroAsiento: asiento.numeroAsiento
+      });
+    } 
+    else if (estado === 'reservado') {
+      const confirmar = window.confirm(`¿Desea marcar el boleto ${asiento.id} como VENDIDO?`);
+      if (confirmar) {
+        try {
+          await updateBoleto(asiento.id, 0);
+          await updateAsientos();
+          alert('Boleto actualizado a VENDIDO');
+        } catch (error) {
+          alert('Error actualizando el boleto');
+        }
+      }
+    }
+    else if (estado === 'vendido') {
+      const confirmar = window.confirm(`¿Desea CANCELAR el boleto ${asiento.id}?`);
+      if (confirmar) {
+        try {
+          await deleteBoleto(asiento.id);
+          await updateAsientos();
+          alert('Boleto eliminado correctamente');
+        } catch (error) {
+          alert('Error eliminando el boleto');
+        }
+      }
+    }
+    
+    onAsientoClick(asiento);
   };
 
   return (
@@ -65,21 +104,48 @@ const TablaAsientos = ({ vueloId, onAsientoClick }) => {
               title={`Asiento ${asiento.numeroAsiento} - ${getEstadoTexto(estado)}`}
             >
               <div
-                onClick={() => {
-                  if (estado === 'libre') {
+                onClick={async () => {
+                  const estadoActual = getEstado(asiento);
+                  
+                  // Función original para asientos libres
+                  if (estadoActual === 'libre') {
                     setSelectedAsiento({
                       vueloId: vueloId,
                       asientoId: asiento.id,
                       numeroAsiento: asiento.numeroAsiento
                     });
                   }
-                  onAsientoClick(asiento); // Mantenemos la funcionalidad original
+                  // Nueva funcionalidad para asientos reservados/vendidos
+                  else if (estadoActual === 'reservado' || estadoActual === 'vendido') {
+                    const confirmar = window.confirm(
+                      estadoActual === 'reservado' 
+                        ? `¿Convertir reserva del asiento ${asiento.numeroAsiento} a VENDIDO?`
+                        : `¿Cancelar boleto del asiento ${asiento.numeroAsiento}?`
+                    );
+                    
+                    if (confirmar) {
+                      try {
+                        if (estadoActual === 'reservado') {
+                          await updateBoleto(asiento.boletoId, 0); // Cambiar a vendido (0)
+                        } else {
+                          await deleteBoleto(asiento.boletoId);
+                        }
+                        await updateAsientos();
+                      } catch (error) {
+                        console.error('Error:', error);
+                        alert('Operación fallida');
+                      }
+                    }
+                  }
+
+                  // Mantener funcionalidad original
+                  onAsientoClick(asiento);
                 }}
                 className={`seat ${estado} 
                   d-flex align-items-center justify-content-center 
                   ${estado === 'libre' ? 'hover-effect' : ''}`}
                 style={{
-                  cursor: estado === 'libre' ? 'pointer' : 'not-allowed'
+                  cursor: ['libre', 'reservado', 'vendido'].includes(estado) ? 'pointer' : 'not-allowed'
                 }}
               >
                 {asiento.numeroAsiento}

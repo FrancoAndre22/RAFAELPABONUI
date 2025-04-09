@@ -27,18 +27,24 @@ const FormularioPasajero = ({ onDatosCompletados, vueloId, asientoId, numeroAsie
       }
   }
 
-  const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = {
+    try {
+      const data = {
         vueloId,
         pasajeroId: selectedPasajero,
         asientoId,
-        fechaRegistro: null,
-        estado
-      }
-     const response = await CreateBoleto(data);
-
-     await updateAsientos()
+        estado: parseInt(estado)
+      };
+      
+      await CreateBoleto(data);
+      await updateAsientos();
+      alert('Operación realizada con éxito');
+      
+    } catch (error) {
+      alert('Error realizando la operación');
+      console.error('Error:', error);
+    }
   };
 
   if (showCreateForm) {
