@@ -1,0 +1,118 @@
+/* App.css */
+:root {
+    --primary-color: #005792;    /* Azul corporativo */
+    --secondary-color: #6c757d;  /* Gris para detalles */
+    --highlight-color: #ffd700;  /* Dorado para acentos */
+  }
+  
+  /* Estilos personalizados para componentes */
+  .card-header {
+    background-color: var(--primary-color) !important;
+  }
+  
+  .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+  
+  .btn-primary:hover {
+    background-color: #004a7a;
+    border-color: #004a7a;
+  }
+  
+  .form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(0, 87, 146, 0.25);
+  }
+
+
+  .seat-map {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 2rem;
+  }
+  
+  .seat {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  /* Efecto de selección */
+  .seat.selected {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+  }
+  
+  /* Formulario flotante */
+  .form-flotante {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  }
+
+  
+  .seat:hover {
+    transform: scale(1.1);
+    z-index: 2;
+  }
+  
+  .seat.libre { background: #0d6efd; color: white; }
+  .seat.reservado { background: #ffc107; color: black; }
+  .seat.vendido { background: #198754; color: white; }
+  .seat.anulado { background: #dc3545; color: white; cursor: not-allowed; }
+  
+  .reserved-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    color: #dc3545;
+    background: white;
+    border-radius: 50%;
+    padding: 2px;
+  }
+
+  loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
+
+/* Estados de color */
+.seat.libre { background-color: #28a745; color: white; }  /* Verde */
+.seat.reservado { background-color: #ffc107; color: black; }  /* Amarillo */
+.seat.vendido { background-color: #dc3545; color: white; }  /* Rojo */
+
+/* Leyenda */
+.color-box {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+.color-box.libre { background: #28a745; }
+.color-box.reservado { background: #ffc107; }
+.color-box.vendido { background: #dc3545; }
+
+/* Efectos hover solo para disponibles */
+.hover-effect:hover {
+  transform: scale(1.1);
+  filter: brightness(1.1);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
